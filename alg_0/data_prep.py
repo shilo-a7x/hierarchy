@@ -63,15 +63,12 @@ num_vertices_list = [100, 500, 1000, 1500]
 
 percentages = list(range(0, 101, 10))
 
-# Loop through each number of vertices
 for num_vertices in num_vertices_list:
     original_tree = generate_tree(num_vertices)
 
-    # Define the data folder path
     data_folder = os.path.join("data", "synthetic", f"{num_vertices}")
-    os.makedirs(data_folder, exist_ok=True)  # Ensure the directory exists
+    os.makedirs(data_folder, exist_ok=True)
 
-    # Loop through the percentages
     for percentage in percentages:
         graph_with_edges = add_random_edges(original_tree.copy(), percentage)
         file_name = f"G_{num_vertices}_{percentage}.pkl"
