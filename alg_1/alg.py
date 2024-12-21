@@ -1,18 +1,37 @@
-import os
 import pickle
+import argparse
 import networkx as nx
-import json
+from leidenalg import find_partition
+import igraph as ig
+
+
+def convert_to_igraph(graph: nx.Graph):
+    ig_graph = ig.Graph(directed=graph.is_directed())
+    ig_graph.add_vertices(list(graph.nodes()))
+    ig_graph.add_edges(list(graph.edges()))
+    return ig_graph
+
+
+def perform_leiden(graph: nx.Graph):
+    ig_graph = convert_to_igraph(graph)
+    partition = find_partition(ig_graph, partition_type="ModularityVertexPartition")
+    communities = {}
+    for comm, nodes in enumerate(partition):
+        for node in nodes:
+            communities[node] = comm
+    return communities
 
 
 def alg(graph: nx.Graph):
-    # graph_score = graph_nodes_score(graph, score_type, score_functions)
-    # dag = dag_from_score(graph, graph_score)
-    # communities = louvain_communities(dag.to_undirected(), threshold=0.8)
-    # community_subgraphs = [dag.subgraph(community).copy() for community in communities]
-    # hierarchy_tree = tree_from_subdags(community_subgraphs, graph_score)
-    # print(nx.is_tree(hierarchy_tree))
-    # return hierarchy_tree
-    return dag
+    communities = perform_leiden(graph)
+    edges_to_remove = []
+    for u, v in graph.edges:
+        if communities[u] != communities[v]:
+            edges_to_remove.append((u, v))
+
+    graph.remove_edges_from(edges_to_remove)
+
+    return graph
 
 
 def load_graph(file_path):
@@ -29,12 +48,12 @@ def save_graph(graph, file_path):
 
 def process_graph(input_file, output_file):
     graph = load_graph(input_file)
-    result_tree = alg(graph)
-    save_graph(result_tree, output_file)
+    result = alg(graph)
+    save_graph(result, output_file)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Process a graph and output a tree")
+    parser = argparse.ArgumentParser(description="Process a graph")
 
     parser.add_argument(
         "input_file", type=str, help="Path to the input graph pickle file"
@@ -42,19 +61,9 @@ def main():
     parser.add_argument(
         "output_file",
         type=str,
-        help="Path to save the output tree pickle file",
+        help="Path to save the output graph pickle file",
     )
-    # parser.add_argument(
-    #     "--config",
-    #     type=str,
-    #     default="config.json",
-    #     help="Path to the configuration JSON file (default: 'config.json')",
-    # )
-
     args = parser.parse_args()
-
-    # config = load_config(args.config)
-
     process_graph(args.input_file, args.output_file)
 
 
