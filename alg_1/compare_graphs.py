@@ -15,12 +15,16 @@ def compute_statistics(G: nx.Graph, H: nx.Graph):
     TP = FP = FN = TN = 0
 
     for u, v, data in G.edges(data=True):
-        if data["type"] == "hierarchy":
+        if "hierarchy_edge" not in data:
+            raise AttributeError(
+                "Graphs edges should have hierarchy marks with 'hierarchy_edge' attribute"
+            )
+        if data["hierarchy_edge"]:
             if H.has_edge(u, v):
                 TP += 1
             else:
                 FN += 1
-        elif data["type"] == "non-hierarchy":
+        else:
             if H.has_edge(u, v):
                 FP += 1
             else:
@@ -64,7 +68,7 @@ def compare_graphs(G_filepath, H_filepath, output_csv):
     num_of_nodes = parts[1]
     percentage = parts[2]
 
-    total_edges = len(G.edges())
+    total_edges = len(G.edges)
 
     result_data = {
         "G filename": G_filename,
@@ -75,6 +79,10 @@ def compare_graphs(G_filepath, H_filepath, output_csv):
         "FP": round(FP / total_edges, 4),
         "FN": round(FN / total_edges, 4),
         "TN": round(TN / total_edges, 4),
+        # "TP": TP,
+        # "FP": FP,
+        # "FN": FN,
+        # "TN": TN,
         "Accuracy": round(accuracy, 4),
         "Precision": round(precision, 4),
         "Recall": round(recall, 4),

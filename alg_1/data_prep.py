@@ -20,7 +20,7 @@ def generate_tree(num_vertices, max_children=5):
         children = triangular_int_sample(1, max_children)
         for _ in range(children):
             if next_node_id < num_vertices:
-                tree.add_edge(parent, next_node_id, type="hierachy")
+                tree.add_edge(parent, next_node_id, hierarchy_edge=True)
                 current_nodes.append(next_node_id)
                 next_node_id += 1
         current_nodes.remove(parent)
@@ -41,7 +41,7 @@ def add_random_edges(graph, percentage):
         u, v = random.sample(range(num_nodes), 2)
         if (u, v) in current_edges or (v, u) in current_edges:
             continue
-        graph.add_edge(u, v, type="non-hierarchy")
+        graph.add_edge(u, v, hierarchy_edge=False)
         current_edges.add((u, v))
         added_edges += 1
 
@@ -58,7 +58,7 @@ def save_graph(graph, folder, file_name):
 
 num_vertices_list = [100, 500, 1000]
 
-percentages = [50, 100, 600, 1100]
+percentages = [0, 50, 100, 600, 1100]
 
 for num_vertices in num_vertices_list:
     original_tree = generate_tree(num_vertices)

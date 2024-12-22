@@ -51,7 +51,7 @@ def generate_all_metric_plots(csv_file, output_dir):
         col
         for col in df.columns
         if col
-        not in ["G_filename", "H_filename", "Number of nodes", "Added edges perncetage"]
+        not in ["G filename", "H filename", "Number of nodes", "Added edges perncetage"]
     ]
 
     for stat in stat_columns:

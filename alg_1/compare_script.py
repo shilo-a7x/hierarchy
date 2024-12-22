@@ -15,10 +15,9 @@ for num_nodes_dir in natsorted(os.listdir(output_base_dir)):
     for output_file in natsorted(os.listdir(output_dir)):
         if output_file.startswith("H_") and output_file.endswith(".pkl"):
 
-            parts = output_file.split("_")
-            num_nodes = parts[1]
+            percentage = output_file.split("_")[-1].replace(".pkl", "")
 
-            input_G_file = f"G_{num_nodes}_0.pkl"
+            input_G_file = f"G_{num_nodes_dir}_{percentage}.pkl"
             input_G_path = os.path.join(input_dir, input_G_file)
 
             if os.path.exists(input_G_path):
