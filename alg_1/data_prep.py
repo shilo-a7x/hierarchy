@@ -56,7 +56,7 @@ def save_graph(graph, folder, file_name):
     print(f"Saved graph to {file_path}")
 
 
-num_vertices_list = [100, 500, 1000]
+num_vertices_list = [100, 500, 1000, 5000]
 
 percentages = [0, 50, 100, 600, 1100]
 

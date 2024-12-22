@@ -7,20 +7,22 @@ def plot_metric_vs_percentage(stat_name, df, output_dir):
     num_nodes_values = df["Number of nodes"].unique()
     num_nodes_values = sorted(num_nodes_values)
 
-    num_subplots = len(num_nodes_values)
-    rows = (num_subplots + 1) // 2
-    cols = 2 if num_subplots > 1 else 1
+    # num_subplots = len(num_nodes_values)
+    # rows = (num_subplots + 1) // 2
+    # cols = 2 if num_subplots > 1 else 1
 
-    fig, axes = plt.subplots(rows, cols, figsize=(15, 6 * rows))
-    axes = axes.flatten()
+    # fig, axes = plt.subplots(rows, cols, figsize=(15, 6 * rows))
+    # axes = axes.flatten()
 
-    for idx, num_nodes in enumerate(num_nodes_values):
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    for _, num_nodes in enumerate(num_nodes_values):
         filtered_df = df[df["Number of nodes"] == num_nodes]
 
         percentages = filtered_df["Added edges perncetage"].astype(int)
         stat_values = filtered_df[stat_name]
 
-        ax = axes[idx]
+        # ax = axes[idx]
         ax.plot(
             percentages,
             stat_values,
@@ -28,12 +30,14 @@ def plot_metric_vs_percentage(stat_name, df, output_dir):
             label=f"Num Nodes = {num_nodes}",
         )
 
-        ax.set_title(f"Num Nodes = {num_nodes}")
-        ax.set_xlabel("Percentage")
-        ax.set_ylabel(stat_name)
+        # ax.set_title(f"Num Nodes = {num_nodes}")
+    ax.set_title(f"{stat_name} vs Percentage")
+    ax.set_xlabel("Percentage")
+    ax.set_ylabel(stat_name)
+    ax.legend()
 
-    for idx in range(len(num_nodes_values), len(axes)):
-        fig.delaxes(axes[idx])
+    # for idx in range(len(num_nodes_values), len(axes)):
+    #     fig.delaxes(axes[idx])
 
     plt.tight_layout()
 
