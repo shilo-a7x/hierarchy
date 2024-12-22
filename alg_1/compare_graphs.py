@@ -32,15 +32,16 @@ def compute_statistics(G: nx.Graph, H: nx.Graph):
 
     accuracy = (TP + TN) / (TP + FP + FN + TN) if (TP + FP + FN + TN) > 0 else 0
     precision = TP / (TP + FP) if (TP + FP) > 0 else 0
+    NPV = TN / (TN + FN) if (TN + FN) > 0 else 0
     recall = TP / (TP + FN) if (TP + FN) > 0 else 0
-    TNR = TN / (TN + FN) if (TN + FN) > 0 else 0
+    TNR = TN / (TN + FP) if (TN + FP) > 0 else 0
     f1_score = (
         2 * (precision * recall) / (precision + recall)
         if (precision + recall) > 0
         else 0
     )
 
-    return TP, FP, FN, TN, accuracy, precision, recall, TNR, f1_score
+    return TP, FP, FN, TN, accuracy, precision, NPV, recall, TNR, f1_score
 
 
 def compare_graphs(G_filepath, H_filepath, output_csv):
@@ -58,6 +59,7 @@ def compare_graphs(G_filepath, H_filepath, output_csv):
         TN,
         accuracy,
         precision,
+        NPV,
         recall,
         TNR,
         f1_score,
@@ -81,6 +83,7 @@ def compare_graphs(G_filepath, H_filepath, output_csv):
         "TN": TN,
         "Accuracy": round(accuracy, 4),
         "Precision": round(precision, 4),
+        "Negative predictive value": NPV,
         "Recall": round(recall, 4),
         "True negative rate": TNR,
         "F1-Score": round(f1_score, 4),
