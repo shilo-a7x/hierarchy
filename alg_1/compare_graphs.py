@@ -33,13 +33,14 @@ def compute_statistics(G: nx.Graph, H: nx.Graph):
     accuracy = (TP + TN) / (TP + FP + FN + TN) if (TP + FP + FN + TN) > 0 else 0
     precision = TP / (TP + FP) if (TP + FP) > 0 else 0
     recall = TP / (TP + FN) if (TP + FN) > 0 else 0
+    TNR = TN / (TN + FN) if (TN + FN) > 0 else 0
     f1_score = (
         2 * (precision * recall) / (precision + recall)
         if (precision + recall) > 0
         else 0
     )
 
-    return TP, FP, FN, TN, accuracy, precision, recall, f1_score
+    return TP, FP, FN, TN, accuracy, precision, recall, TNR, f1_score
 
 
 def compare_graphs(G_filepath, H_filepath, output_csv):
@@ -58,6 +59,7 @@ def compare_graphs(G_filepath, H_filepath, output_csv):
         accuracy,
         precision,
         recall,
+        TNR,
         f1_score,
     ) = compute_statistics(G, H)
 
@@ -68,24 +70,19 @@ def compare_graphs(G_filepath, H_filepath, output_csv):
     num_of_nodes = parts[1]
     percentage = parts[2]
 
-    total_edges = len(G.edges)
-
     result_data = {
         "G filename": G_filename,
         "H filename": H_filename,
         "Number of nodes": num_of_nodes,
         "Added edges perncetage": percentage,
-        "TP": round(TP / total_edges, 4),
-        "FP": round(FP / total_edges, 4),
-        "FN": round(FN / total_edges, 4),
-        "TN": round(TN / total_edges, 4),
-        # "TP": TP,
-        # "FP": FP,
-        # "FN": FN,
-        # "TN": TN,
+        "TP": TP,
+        "FP": FP,
+        "FN": FN,
+        "TN": TN,
         "Accuracy": round(accuracy, 4),
         "Precision": round(precision, 4),
         "Recall": round(recall, 4),
+        "True negative rate": TNR,
         "F1-Score": round(f1_score, 4),
     }
 
