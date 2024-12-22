@@ -37,7 +37,7 @@ def plot_metric_vs_percentage(stat_name, df, output_dir):
 
     plt.tight_layout()
 
-    metric_filename = os.path.join(output_dir, f"{stat_name}_vs_percentage.png")
+    metric_filename = os.path.join(output_dir, f"{stat_name} VS Percentage.png")
     plt.savefig(metric_filename, bbox_inches="tight")
     plt.close()
 
