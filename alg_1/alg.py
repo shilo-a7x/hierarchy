@@ -1,7 +1,7 @@
 import pickle
 import argparse
 import networkx as nx
-from leidenalg import find_partition
+import leidenalg as la
 import igraph as ig
 
 
@@ -14,7 +14,7 @@ def convert_to_igraph(graph: nx.Graph):
 
 def perform_leiden(graph: nx.Graph):
     ig_graph = convert_to_igraph(graph)
-    partition = find_partition(ig_graph, partition_type="ModularityVertexPartition")
+    partition = la.find_partition(ig_graph, partition_type=la.ModularityVertexPartition)
     communities = {}
     for comm, nodes in enumerate(partition):
         for node in nodes:
