@@ -83,9 +83,9 @@ def compare_graphs(G_filepath, H_filepath, output_csv):
         "TN": TN,
         "Accuracy": round(accuracy, 4),
         "Precision": round(precision, 4),
-        "Negative predictive value": NPV,
+        "Negative predictive value": round(NPV, 4),
         "Recall": round(recall, 4),
-        "True negative rate": TNR,
+        "True negative rate": round(TNR, 4),
         "F1-Score": round(f1_score, 4),
     }
 
