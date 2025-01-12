@@ -115,7 +115,8 @@ def fetch_entity_graph(tree, wiki):
 
 
 def main():
-    default_output_path = os.path.dirname(os.path.abspath(__file__))
+    # default_output_path = os.path.dirname(os.path.abspath(__file__))
+    default_output_path = "data/processed/wiki"
 
     parser = argparse.ArgumentParser(
         description="Generate hierarchy tree and entity graph from Wikipedia categories."
