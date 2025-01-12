@@ -53,7 +53,9 @@ def fetch_hierarchy_tree(wiki, category_name, max_depth=sys.maxsize):
         raise ValueError(
             f"Category '{category_name}' does not exist in the selected Wikipedia language."
         )
-    with tqdm(total=1, desc="Processing categories") as pbar:
+    with tqdm(
+        total=1, desc="Processing categories", disable=(not sys.stdout.isatty())
+    ) as pbar:
         while stack:
             current_category, depth = stack.pop()
             if depth > max_depth or current_category in visited:
@@ -95,7 +97,11 @@ def fetch_entity_graph(tree, wiki):
     """
     entity_graph = nx.DiGraph()
 
-    with tqdm(total=tree.number_of_nodes(), desc="Processing articles") as pbar:
+    with tqdm(
+        total=tree.number_of_nodes(),
+        desc="Processing articles",
+        disable=(not sys.stdout.isatty()),
+    ) as pbar:
         for node in tree.nodes:
             page = wiki.page(node)
             if page.exists():
@@ -136,8 +142,13 @@ def main():
     parser.add_argument(
         "--max_depth",
         type=int,
-        default=sys.maxsize,
-        help="Maximum depth of the hierarchy tree.",
+        default=5,
+        help="Maximum depth of the hierarchy tree (use --use_max_depth for unlimited depth).",
+    )
+    parser.add_argument(
+        "--use_max_depth",
+        action="store_true",
+        help="If set, overrides --max_depth to use the system's maximum integer size.",
     )
     parser.add_argument(
         "--output_path",
@@ -147,6 +158,7 @@ def main():
     )
 
     args = parser.parse_args()
+    max_depth = sys.maxsize if args.use_max_depth else args.max_depth
 
     try:
         wiki = wikipediaapi.Wikipedia(
@@ -157,7 +169,7 @@ def main():
         os.makedirs(category_dir, exist_ok=True)
 
         print(f"Fetching hierarchy tree for category: {args.category}")
-        hierarchy_tree = fetch_hierarchy_tree(wiki, args.category, args.max_depth)
+        hierarchy_tree = fetch_hierarchy_tree(wiki, args.category, max_depth)
         tree_name = (
             f"hierarchy_tree_depth_{args.max_depth}"
             if args.max_depth < sys.maxsize
