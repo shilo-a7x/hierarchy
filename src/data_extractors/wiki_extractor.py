@@ -5,7 +5,6 @@ import os
 import sys
 import json
 import pickle
-from tqdm import tqdm
 
 
 def save_graph(graph, output_path, name):
@@ -31,7 +30,7 @@ def save_graph(graph, output_path, name):
     print(f"Saved {name} as Pickle: {pickle_path}")
 
 
-def fetch_hierarchy_tree(wiki, category_name, max_depth=sys.maxsize):
+def fetch_hierarchy_tree(wiki, category_name, max_depth=5):
     """
     Iteratively fetches the hierarchy tree for a given category.
     Args:
@@ -53,29 +52,23 @@ def fetch_hierarchy_tree(wiki, category_name, max_depth=sys.maxsize):
         raise ValueError(
             f"Category '{category_name}' does not exist in the selected Wikipedia language."
         )
-    with tqdm(
-        total=1, desc="Processing categories", disable=(not sys.stdout.isatty())
-    ) as pbar:
-        while stack:
-            current_category, depth = stack.pop()
-            if depth > max_depth or current_category in visited:
-                continue
-            visited.add(current_category)
+    while stack:
+        current_category, depth = stack.pop()
+        if depth > max_depth or current_category in visited:
+            continue
+        visited.add(current_category)
 
-            category_page = wiki.page(f"Category:{current_category}")
-            if not category_page.exists():
-                continue
+        category_page = wiki.page(f"Category:{current_category}")
+        if not category_page.exists():
+            continue
 
-            for member_name, member in category_page.categorymembers.items():
-                if member.ns == wikipediaapi.Namespace.CATEGORY:
-                    tree.add_edge(
-                        current_category, member.title.replace("Category:", "")
-                    )
-                    stack.append((member.title.replace("Category:", ""), depth + 1))
-                    num_categories += 1
-                elif member.ns == wikipediaapi.Namespace.MAIN:
-                    tree.add_edge(current_category, member.title)
-            pbar.update(1)
+        for member_name, member in category_page.categorymembers.items():
+            if member.ns == wikipediaapi.Namespace.CATEGORY:
+                tree.add_edge(current_category, member.title.replace("Category:", ""))
+                stack.append((member.title.replace("Category:", ""), depth + 1))
+                num_categories += 1
+            elif member.ns == wikipediaapi.Namespace.MAIN:
+                tree.add_edge(current_category, member.title)
 
     if tree.number_of_nodes() == 0:
         raise ValueError(
@@ -97,18 +90,12 @@ def fetch_entity_graph(tree, wiki):
     """
     entity_graph = nx.DiGraph()
 
-    with tqdm(
-        total=tree.number_of_nodes(),
-        desc="Processing articles",
-        disable=(not sys.stdout.isatty()),
-    ) as pbar:
-        for node in tree.nodes:
-            page = wiki.page(node)
-            if page.exists():
-                for link in page.links.keys():
-                    if link in tree.nodes:
-                        entity_graph.add_edge(node, link)
-            pbar.update(1)
+    for node in tree.nodes:
+        page = wiki.page(node)
+        if page.exists():
+            for link in page.links.keys():
+                if link in tree.nodes:
+                    entity_graph.add_edge(node, link)
 
     entity_graph.remove_edges_from(nx.selfloop_edges(entity_graph))
 
