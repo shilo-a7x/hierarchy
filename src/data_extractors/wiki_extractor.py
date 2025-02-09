@@ -157,11 +157,12 @@ def main():
 
         print(f"Fetching hierarchy tree for category: {args.category}")
         hierarchy_tree = fetch_hierarchy_tree(wiki, args.category, max_depth)
-        tree_name = (
-            f"hierarchy_tree_depth_{args.max_depth}"
-            if args.max_depth < sys.maxsize
-            else "hierarchy_tree"
-        )
+        # tree_name = (
+        #     f"hierarchy_tree_depth_{args.max_depth}"
+        #     if args.max_depth < sys.maxsize
+        #     else "hierarchy_tree"
+        # )
+        tree_name = "hierarchy_tree"
         save_graph(hierarchy_tree, category_dir, tree_name)
         print("Building entity graph from hierarchy tree...")
         entity_graph = fetch_entity_graph(hierarchy_tree, wiki)

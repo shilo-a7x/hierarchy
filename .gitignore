@@ -163,5 +163,6 @@ cython_debug/
 nohup.out
 nohup2.out
 nohup3.out
+nohup4.out
 data/
 outputs/graphs/
