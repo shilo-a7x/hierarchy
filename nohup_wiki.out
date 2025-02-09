@@ -1,0 +1,8 @@
+Fetching hierarchy tree for category: Graph theory
+Number of categories in the hierarchy tree: 74
+Saved hierarchy_tree as edgelist: data/wiki/Graph theory/hierarchy_tree.edgelist
+Saved hierarchy_tree as Pickle: data/wiki/Graph theory/hierarchy_tree.pkl
+Building entity graph from hierarchy tree...
+Number of nodes in the entity graph: 1962
+Saved entity_graph as edgelist: data/wiki/Graph theory/entity_graph.edgelist
+Saved entity_graph as Pickle: data/wiki/Graph theory/entity_graph.pkl

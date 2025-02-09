@@ -3,7 +3,6 @@ import wikipediaapi
 import networkx as nx
 import os
 import sys
-import json
 import pickle
 
 
@@ -19,11 +18,6 @@ def save_graph(graph, output_path, name):
     nx.write_edgelist(graph, edgelist_path, data=False, delimiter="|")
     print(f"Saved {name} as edgelist: {edgelist_path}")
 
-    json_path = os.path.join(output_path, f"{name}.json")
-    with open(json_path, "w") as f:
-        json.dump(nx.node_link_data(graph), f, indent=4)
-    print(f"Saved {name} as JSON: {json_path}")
-
     pickle_path = os.path.join(output_path, f"{name}.pkl")
     with open(pickle_path, "wb") as f:
         pickle.dump(graph, f)
@@ -32,11 +26,11 @@ def save_graph(graph, output_path, name):
 
 def fetch_hierarchy_tree(wiki, category_name, max_depth=5):
     """
-    Iteratively fetches the hierarchy tree for a given category.
+    Fetches the Wikipedia hierarchy tree, ensuring it is an arborescence.
     Args:
         wiki: Wikipedia API object.
         category_name: Root category name.
-        max_depth: Maximum depth of the tree (default is system max int).
+        max_depth: Maximum depth of the tree.
     Returns:
         A directed graph representing the hierarchy tree.
     Raises:
@@ -45,6 +39,7 @@ def fetch_hierarchy_tree(wiki, category_name, max_depth=5):
     tree = nx.DiGraph()
     stack = [(category_name, 0)]
     visited = set()
+    parent_map = {}
     num_categories = 1
 
     root_category = wiki.page(f"Category:{category_name}")
@@ -52,6 +47,7 @@ def fetch_hierarchy_tree(wiki, category_name, max_depth=5):
         raise ValueError(
             f"Category '{category_name}' does not exist in the selected Wikipedia language."
         )
+
     while stack:
         current_category, depth = stack.pop()
         if depth > max_depth or current_category in visited:
@@ -63,12 +59,18 @@ def fetch_hierarchy_tree(wiki, category_name, max_depth=5):
             continue
 
         for member_name, member in category_page.categorymembers.items():
+            child_name = member.title.replace("Category:", "")
+
             if member.ns == wikipediaapi.Namespace.CATEGORY:
-                tree.add_edge(current_category, member.title.replace("Category:", ""))
-                stack.append((member.title.replace("Category:", ""), depth + 1))
-                num_categories += 1
+                if child_name != current_category and child_name not in parent_map:
+                    tree.add_edge(current_category, child_name)
+                    parent_map[child_name] = current_category
+                    stack.append((child_name, depth + 1))
+                    num_categories += 1
             elif member.ns == wikipediaapi.Namespace.MAIN:
-                tree.add_edge(current_category, member.title)
+                if member.title != current_category and member.title not in parent_map:
+                    tree.add_edge(current_category, member.title)
+                    parent_map[member.title] = current_category
 
     if tree.number_of_nodes() == 0:
         raise ValueError(
@@ -109,7 +111,7 @@ def fetch_entity_graph(tree, wiki):
 
 def main():
     # default_output_path = os.path.dirname(os.path.abspath(__file__))
-    default_output_path = "data/processed/wiki"
+    default_output_path = "data/wiki"
 
     parser = argparse.ArgumentParser(
         description="Generate hierarchy tree and entity graph from Wikipedia categories."

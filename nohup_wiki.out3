@@ -1,0 +1,5 @@
+Fetching hierarchy tree for category: Mathematics
+Number of categories in the hierarchy tree: 9971
+Saved hierarchy_tree as edgelist: data/wiki/Mathematics/hierarchy_tree.edgelist
+Saved hierarchy_tree as Pickle: data/wiki/Mathematics/hierarchy_tree.pkl
+Building entity graph from hierarchy tree...

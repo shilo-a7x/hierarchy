@@ -1,0 +1,8 @@
+Fetching hierarchy tree for category: Linear algebra
+Number of categories in the hierarchy tree: 758
+Saved hierarchy_tree as edgelist: data/wiki/Linear algebra/hierarchy_tree.edgelist
+Saved hierarchy_tree as Pickle: data/wiki/Linear algebra/hierarchy_tree.pkl
+Building entity graph from hierarchy tree...
+Number of nodes in the entity graph: 10468
+Saved entity_graph as edgelist: data/wiki/Linear algebra/entity_graph.edgelist
+Saved entity_graph as Pickle: data/wiki/Linear algebra/entity_graph.pkl

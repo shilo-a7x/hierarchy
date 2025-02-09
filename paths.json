@@ -1,0 +1,28 @@
+{
+    "wiki": {
+        "Complex numbers": {
+            "hierarchy_tree": "data/wiki/Complex numbers/hierarchy_tree.pkl",
+            "entity_graph": "data/wiki/Complex numbers/entity_graph.pkl"
+        },
+        "Dance": {
+            "hierarchy_tree": "data/wiki/Dance/hierarchy_tree.pkl",
+            "entity_graph": "data/wiki/Dance/entity_graph.pkl"
+        },
+        "Graph theory": {
+            "hierarchy_tree": "data/wiki/Graph theory/hierarchy_tree.pkl",
+            "entity_graph": "data/wiki/Graph theory/entity_graph.pkl"
+        },
+        "Linear algebra": {
+            "hierarchy_tree": "data/wiki/Linear algebra/hierarchy_tree.pkl",
+            "entity_graph": "data/wiki/Linear algebra/entity_graph.pkl"
+        },
+        "Nonstandard analysis": {
+            "hierarchy_tree": "data/wiki/Nonstandard analysis/hierarchy_tree.pkl",
+            "entity_graph": "data/wiki/Nonstandard analysis/entity_graph.pkl"
+        },
+        "Mathematics": {
+            "hierarchy_tree": "data/wiki/Mathematics/hierarchy_tree.pkl",
+            "entity_graph": "data/wiki/Mathematics/entity_graph.pkl"
+        }
+    }
+}
