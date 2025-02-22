@@ -4,12 +4,11 @@ import networkx as nx
 import os
 import sys
 import pickle
-import json
 
 
 def save_graph(graph, output_path, name):
     """
-    Save the graph in multiple formats: edgelist and pickle.
+    Save the graph in multiple formats: edgelist, JSON, and pickle.
     Args:
         graph: NetworkX graph to save.
         output_path: Base directory for saving files.
@@ -19,7 +18,6 @@ def save_graph(graph, output_path, name):
     nx.write_edgelist(graph, edgelist_path, data=False, delimiter="|")
     print(f"Saved {name} as edgelist: {edgelist_path}")
 
-    # Save graph as Pickle
     pickle_path = os.path.join(output_path, f"{name}.pkl")
     with open(pickle_path, "wb") as f:
         pickle.dump(graph, f)
@@ -50,26 +48,11 @@ def fetch_hierarchy_tree(wiki, category_name, max_depth=5):
             f"Category '{category_name}' does not exist in the selected Wikipedia language."
         )
 
-    node_index = {}  # Dictionary to store node name -> index
-    next_index = 0  # Counter for indexing nodes
-
-    def get_node_index(name):
-        nonlocal next_index
-        if name not in node_index:
-            node_index[name] = next_index
-            next_index += 1
-        return node_index[name]
-
     while stack:
         current_category, depth = stack.pop()
         if depth > max_depth or current_category in visited:
             continue
         visited.add(current_category)
-
-        current_index = get_node_index(current_category)  # Get index for the node
-        tree.add_node(
-            current_index, name=current_category
-        )  # Store original name as attribute
 
         category_page = wiki.page(f"Category:{current_category}")
         if not category_page.exists():
@@ -80,19 +63,13 @@ def fetch_hierarchy_tree(wiki, category_name, max_depth=5):
 
             if member.ns == wikipediaapi.Namespace.CATEGORY:
                 if child_name != current_category and child_name not in parent_map:
-                    child_index = get_node_index(child_name)
-                    tree.add_edge(current_index, child_index)
-                    tree.nodes[child_index]["name"] = child_name  # Store original name
+                    tree.add_edge(current_category, child_name)
                     parent_map[child_name] = current_category
                     stack.append((child_name, depth + 1))
                     num_categories += 1
             elif member.ns == wikipediaapi.Namespace.MAIN:
                 if member.title != current_category and member.title not in parent_map:
-                    child_index = get_node_index(member.title)
-                    tree.add_edge(current_index, child_index)
-                    tree.nodes[child_index][
-                        "name"
-                    ] = member.title  # Store original name
+                    tree.add_edge(current_category, member.title)
                     parent_map[member.title] = current_category
 
     if tree.number_of_nodes() == 0:
@@ -116,20 +93,12 @@ def fetch_entity_graph(tree, wiki):
     """
     entity_graph = tree.copy()
 
-    for node in list(entity_graph.nodes):  # Iterate over index-based nodes
-        page = wiki.page(tree.nodes[node]["name"])  # Fetch page by stored name
+    for node in entity_graph.nodes:
+        page = wiki.page(node)
         if page.exists():
             for link in page.links.keys():
-                linked_node = next(
-                    (
-                        idx
-                        for idx, data in tree.nodes(data=True)
-                        if data.get("name") == link
-                    ),
-                    None,
-                )
-                if linked_node is not None:
-                    entity_graph.add_edge(node, linked_node)
+                if link in tree.nodes:
+                    entity_graph.add_edge(node, link)
 
     entity_graph.remove_edges_from(nx.selfloop_edges(entity_graph))
 
@@ -142,6 +111,7 @@ def fetch_entity_graph(tree, wiki):
 
 
 def main():
+    # default_output_path = os.path.dirname(os.path.abspath(__file__))
     default_output_path = "data/wiki"
 
     parser = argparse.ArgumentParser(
@@ -190,23 +160,15 @@ def main():
 
         print(f"Fetching hierarchy tree for category: {args.category}")
         hierarchy_tree = fetch_hierarchy_tree(wiki, args.category, max_depth)
-
-        node_mapping = {
-            str(node): hierarchy_tree.nodes[node]["name"]
-            for node in hierarchy_tree.nodes
-        }
-
-        json_path = os.path.join(category_dir, "node_mapping.json")
-        with open(json_path, "w", encoding="utf-8") as json_file:
-            json.dump(node_mapping, json_file, indent=4, ensure_ascii=False)
-        print(f"Saved node name mapping as JSON: {json_path}")
-
+        # tree_name = (
+        #     f"hierarchy_tree_depth_{args.max_depth}"
+        #     if args.max_depth < sys.maxsize
+        #     else "hierarchy_tree"
+        # )
         tree_name = "hierarchy_tree"
         save_graph(hierarchy_tree, category_dir, tree_name)
-
         print("Building entity graph from hierarchy tree...")
         entity_graph = fetch_entity_graph(hierarchy_tree, wiki)
-
         save_graph(entity_graph, category_dir, "entity_graph")
 
     except ValueError as e:

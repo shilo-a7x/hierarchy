@@ -1,0 +1,11 @@
+nohup: ignoring input
+Fetching hierarchy tree for category: Probability theory
+Number of categories in the hierarchy tree: 5962
+Number of nodes in the hierarchy tree: 31093
+Saved node name mapping as JSON: data/wiki/Probability theory/node_mapping.json
+Saved hierarchy_tree as edgelist: data/wiki/Probability theory/hierarchy_tree.edgelist
+Saved hierarchy_tree as Pickle: data/wiki/Probability theory/hierarchy_tree.pkl
+Building entity graph from hierarchy tree...
+Number of edges in the entity graph: 541369
+Saved entity_graph as edgelist: data/wiki/Probability theory/entity_graph.edgelist
+Saved entity_graph as Pickle: data/wiki/Probability theory/entity_graph.pkl

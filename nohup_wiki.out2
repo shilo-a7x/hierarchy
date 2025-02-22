@@ -1,5 +1,11 @@
-Fetching hierarchy tree for category: Dance
-Number of categories in the hierarchy tree: 8610
-Saved hierarchy_tree as edgelist: data/wiki/Dance/hierarchy_tree.edgelist
-Saved hierarchy_tree as Pickle: data/wiki/Dance/hierarchy_tree.pkl
+nohup: ignoring input
+Fetching hierarchy tree for category: Linear algebra
+Number of categories in the hierarchy tree: 759
+Number of nodes in the hierarchy tree: 11305
+Saved node name mapping as JSON: data/wiki/Linear algebra/node_mapping.json
+Saved hierarchy_tree as edgelist: data/wiki/Linear algebra/hierarchy_tree.edgelist
+Saved hierarchy_tree as Pickle: data/wiki/Linear algebra/hierarchy_tree.pkl
 Building entity graph from hierarchy tree...
+Number of edges in the entity graph: 430603
+Saved entity_graph as edgelist: data/wiki/Linear algebra/entity_graph.edgelist
+Saved entity_graph as Pickle: data/wiki/Linear algebra/entity_graph.pkl

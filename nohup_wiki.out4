@@ -1,8 +1,9 @@
-Fetching hierarchy tree for category: Linear algebra
-Number of categories in the hierarchy tree: 758
-Saved hierarchy_tree as edgelist: data/wiki/Linear algebra/hierarchy_tree.edgelist
-Saved hierarchy_tree as Pickle: data/wiki/Linear algebra/hierarchy_tree.pkl
+nohup: ignoring input
+Fetching hierarchy tree for category: Mathematics
+Number of categories in the hierarchy tree: 9969
+Number of nodes in the hierarchy tree: 120818
+Saved node name mapping as JSON: data/wiki/Mathematics/node_mapping.json
+Saved hierarchy_tree as edgelist: data/wiki/Mathematics/hierarchy_tree.edgelist
+Saved hierarchy_tree as Pickle: data/wiki/Mathematics/hierarchy_tree.pkl
 Building entity graph from hierarchy tree...
-Number of nodes in the entity graph: 10468
-Saved entity_graph as edgelist: data/wiki/Linear algebra/entity_graph.edgelist
-Saved entity_graph as Pickle: data/wiki/Linear algebra/entity_graph.pkl
+An unexpected error occurred: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))

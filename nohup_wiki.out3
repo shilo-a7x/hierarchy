@@ -1,5 +1,9 @@
-Fetching hierarchy tree for category: Mathematics
-Number of categories in the hierarchy tree: 9971
-Saved hierarchy_tree as edgelist: data/wiki/Mathematics/hierarchy_tree.edgelist
-Saved hierarchy_tree as Pickle: data/wiki/Mathematics/hierarchy_tree.pkl
+nohup: ignoring input
+Fetching hierarchy tree for category: Dance
+Number of categories in the hierarchy tree: 8610
+Number of nodes in the hierarchy tree: 51641
+Saved node name mapping as JSON: data/wiki/Dance/node_mapping.json
+Saved hierarchy_tree as edgelist: data/wiki/Dance/hierarchy_tree.edgelist
+Saved hierarchy_tree as Pickle: data/wiki/Dance/hierarchy_tree.pkl
 Building entity graph from hierarchy tree...
+An unexpected error occurred: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))

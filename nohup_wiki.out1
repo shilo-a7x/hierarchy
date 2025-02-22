@@ -1,8 +1,11 @@
-Fetching hierarchy tree for category: Complex numbers
-Number of categories in the hierarchy tree: 483
-Saved hierarchy_tree as edgelist: data/wiki/Complex numbers/hierarchy_tree.edgelist
-Saved hierarchy_tree as Pickle: data/wiki/Complex numbers/hierarchy_tree.pkl
+nohup: ignoring input
+Fetching hierarchy tree for category: Graph theory
+Number of categories in the hierarchy tree: 74
+Number of nodes in the hierarchy tree: 2023
+Saved node name mapping as JSON: data/wiki/Graph theory/node_mapping.json
+Saved hierarchy_tree as edgelist: data/wiki/Graph theory/hierarchy_tree.edgelist
+Saved hierarchy_tree as Pickle: data/wiki/Graph theory/hierarchy_tree.pkl
 Building entity graph from hierarchy tree...
-Number of nodes in the entity graph: 4868
-Saved entity_graph as edgelist: data/wiki/Complex numbers/entity_graph.edgelist
-Saved entity_graph as Pickle: data/wiki/Complex numbers/entity_graph.pkl
+Number of edges in the entity graph: 34065
+Saved entity_graph as edgelist: data/wiki/Graph theory/entity_graph.edgelist
+Saved entity_graph as Pickle: data/wiki/Graph theory/entity_graph.pkl

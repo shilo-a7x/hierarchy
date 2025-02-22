@@ -2,27 +2,38 @@
     "wiki": {
         "Complex numbers": {
             "hierarchy_tree": "data/wiki/Complex numbers/hierarchy_tree.pkl",
-            "entity_graph": "data/wiki/Complex numbers/entity_graph.pkl"
+            "entity_graph": "data/wiki/Complex numbers/entity_graph.pkl",
+            "node_mapping": "data/wiki/Complex numbers/node_mapping.json"
         },
         "Dance": {
             "hierarchy_tree": "data/wiki/Dance/hierarchy_tree.pkl",
-            "entity_graph": "data/wiki/Dance/entity_graph.pkl"
+            "entity_graph": "data/wiki/Dance/entity_graph.pkl",
+            "node_mapping": "data/wiki/Dance/node_mapping.json"
         },
         "Graph theory": {
             "hierarchy_tree": "data/wiki/Graph theory/hierarchy_tree.pkl",
-            "entity_graph": "data/wiki/Graph theory/entity_graph.pkl"
+            "entity_graph": "data/wiki/Graph theory/entity_graph.pkl",
+            "node_mapping": "data/wiki/Graph theory/node_mapping.json"
         },
         "Linear algebra": {
             "hierarchy_tree": "data/wiki/Linear algebra/hierarchy_tree.pkl",
-            "entity_graph": "data/wiki/Linear algebra/entity_graph.pkl"
+            "entity_graph": "data/wiki/Linear algebra/entity_graph.pkl",
+            "node_mapping": "data/wiki/Linear algebra/node_mapping.json"
         },
         "Nonstandard analysis": {
             "hierarchy_tree": "data/wiki/Nonstandard analysis/hierarchy_tree.pkl",
-            "entity_graph": "data/wiki/Nonstandard analysis/entity_graph.pkl"
+            "entity_graph": "data/wiki/Nonstandard analysis/entity_graph.pkl",
+            "node_mapping": "data/wiki/Nonstandard analysis/node_mapping.json"
         },
         "Mathematics": {
             "hierarchy_tree": "data/wiki/Mathematics/hierarchy_tree.pkl",
-            "entity_graph": "data/wiki/Mathematics/entity_graph.pkl"
+            "entity_graph": "data/wiki/Mathematics/entity_graph.pkl",
+            "node_mapping": "data/wiki/Mathematics/node_mapping.json"
+        },
+        "Calculus": {
+            "hierarchy_tree": "data/wiki/Calculus/hierarchy_tree.pkl",
+            "entity_graph": "data/wiki/Calculus/entity_graph.pkl",
+            "node_mapping": "data/wiki/Calculus/node_mapping.json"
         }
     }
 }
