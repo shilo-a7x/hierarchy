@@ -1,0 +1,440 @@
+nohup: ignoring input
+[I 2025-03-11 15:55:18,666] A new study created in memory with name: no-name-9f90efe6-3ed7-4d3c-be65-2c4f62f148e5
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Trial 2 completed
+Final loss: 69324.11494197881
+Final temperature: 0.0009995979422573415
+Number of iterations: 21220
+Valid modifications: 17782
+Effective modifications: 33
+Simulated annealing completed
+Trial 7 completed
+Final loss: 40129.47050879392
+Final temperature: 0.000999466233002742
+Number of iterations: 19899
+Valid modifications: 16803
+Effective modifications: 31
+Simulated annealing completed
+[I 2025-03-11 15:56:06,318] Trial 7 finished with value: 441.0 and parameters: {'initial_temp': 986.6110590206961, 'cooling_rate': 0.9991789027146171, 'max_iter': 9500000, 'weight': 52.85007650700121, 'community': 43.35514524425906, 'diversity': 46.32346594159319, 'shortcut': 7248.657664305505, 'resolution': 3.004495309495684}. Best is trial 7 with value: 441.0.
+[I 2025-03-11 15:56:06,695] Trial 2 finished with value: 442.0 and parameters: {'initial_temp': 567.7084300439535, 'cooling_rate': 0.9992551551988035, 'max_iter': 677700000, 'weight': 83.65116906031696, 'community': 78.8250073422006, 'diversity': 59.06411267854895, 'shortcut': 3201.3237560420225, 'resolution': 2.898976116744606}. Best is trial 2 with value: 442.0.
+Trial 1 completed
+Final loss: 56707.05343149464
+Final temperature: 0.0009992842703360984
+Number of iterations: 20984
+Valid modifications: 17350
+Effective modifications: 24
+Simulated annealing completed
+[I 2025-03-11 15:56:08,399] Trial 1 finished with value: 441.0 and parameters: {'initial_temp': 952.5275519337288, 'cooling_rate': 0.9992067936999666, 'max_iter': 993000000, 'weight': 75.1662311782929, 'community': 56.43893489639824, 'diversity': 30.997189968069698, 'shortcut': 2390.136646965126, 'resolution': 3.6187220314793915}. Best is trial 2 with value: 442.0.
+Trial 4 completed
+Final loss: 17681.244757866792
+Final temperature: 0.0009994800899154623
+Number of iterations: 23213
+Valid modifications: 19143
+Effective modifications: 37
+Simulated annealing completed
+[I 2025-03-11 15:56:11,723] Trial 4 finished with value: 441.0 and parameters: {'initial_temp': 957.2095586156826, 'cooling_rate': 0.9992808157205009, 'max_iter': 548100000, 'weight': 69.20828862309332, 'community': 21.165718988425716, 'diversity': 6.162820045447258, 'shortcut': 8456.8101324296, 'resolution': 2.980586007425555}. Best is trial 2 with value: 442.0.
+Starting simulated annealing
+Trial 0 completed
+Final loss: 51053.24926968874
+Final temperature: 0.000999753012555924
+Number of iterations: 28359
+Valid modifications: 23203
+Effective modifications: 37
+Simulated annealing completed
+[I 2025-03-11 15:56:17,780] Trial 0 finished with value: 440.0 and parameters: {'initial_temp': 385.5786571699098, 'cooling_rate': 0.9994457965396901, 'max_iter': 552400000, 'weight': 45.73233330721986, 'community': 48.343127202734706, 'diversity': 16.00869879597169, 'shortcut': 894.4501811552462, 'resolution': 4.651366532401582}. Best is trial 2 with value: 442.0.
+[I 2025-03-11 15:56:17,915] Trial 12 pruned. 
+Trial 10 completed
+Final loss: 42927.88656048421
+Final temperature: 0.0009995664134534955
+Number of iterations: 24367
+Valid modifications: 20467
+Effective modifications: 38
+Simulated annealing completed
+Starting simulated annealing
+[I 2025-03-11 15:56:19,766] Trial 10 finished with value: 440.0 and parameters: {'initial_temp': 722.4078756536335, 'cooling_rate': 0.9993410693491217, 'max_iter': 528000000, 'weight': 61.95287952461744, 'community': 58.71815171497224, 'diversity': 60.90731017709116, 'shortcut': 9076.320002078517, 'resolution': 1.3541495034828388}. Best is trial 2 with value: 442.0.
+[I 2025-03-11 15:56:20,367] Trial 13 pruned. 
+Starting simulated annealing
+[I 2025-03-11 15:56:21,350] Trial 14 pruned. 
+Starting simulated annealing
+Trial 9 completed
+Final loss: 1034.9737359068004
+Final temperature: 0.0009998689326455401
+Number of iterations: 24855
+Valid modifications: 21143
+Effective modifications: 37
+Simulated annealing completed
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:56:24,203] Trial 9 finished with value: 440.0 and parameters: {'initial_temp': 995.9513637468007, 'cooling_rate': 0.9993469671012096, 'max_iter': 734900000, 'weight': 35.140881732526, 'community': 5.072345894378599, 'diversity': 19.126433606866883, 'shortcut': 5768.44874024024, 'resolution': 0.46653582175516406}. Best is trial 2 with value: 442.0.
+Starting simulated annealing
+[I 2025-03-11 15:56:24,469] Trial 15 pruned. 
+Starting simulated annealing
+Trial 5 completed
+Final loss: 69704.31147943214
+Final temperature: 0.0009997718769102794
+Number of iterations: 25176
+Valid modifications: 21809
+Effective modifications: 31
+Simulated annealing completed
+[I 2025-03-11 15:56:25,127] Trial 17 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:56:26,372] Trial 18 pruned. 
+[I 2025-03-11 15:56:26,502] Trial 5 finished with value: 440.0 and parameters: {'initial_temp': 420.3652290327423, 'cooling_rate': 0.9994064256112211, 'max_iter': 51600000, 'weight': 15.5035312368383, 'community': 89.80759063165878, 'diversity': 48.42685305641329, 'shortcut': 1557.339966901311, 'resolution': 2.3348389340138835}. Best is trial 2 with value: 442.0.
+[I 2025-03-11 15:56:26,704] Trial 20 pruned. 
+Starting simulated annealing
+Trial 8 completed
+Final loss: 25573.829003814284
+Final temperature: 0.0009998625132659343
+Number of iterations: 30116
+Valid modifications: 25039
+Effective modifications: 45
+Simulated annealing completed
+[I 2025-03-11 15:56:31,377] Trial 8 finished with value: 441.0 and parameters: {'initial_temp': 356.4618699701216, 'cooling_rate': 0.9994895620022871, 'max_iter': 559400000, 'weight': 43.024743578613105, 'community': 32.14891243668836, 'diversity': 23.553594879484063, 'shortcut': 8259.855711919032, 'resolution': 2.12101366145938}. Best is trial 2 with value: 442.0.
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:56:35,233] Trial 25 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:56:40,068] Trial 29 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:56:46,193] Trial 30 pruned. 
+Starting simulated annealing
+[I 2025-03-11 15:56:47,102] Trial 31 pruned. 
+Starting simulated annealing
+[I 2025-03-11 15:56:48,285] Trial 33 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:56:51,439] Trial 35 pruned. 
+[I 2025-03-11 15:56:51,659] Trial 36 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:56:53,970] Trial 39 pruned. 
+Starting simulated annealing
+[I 2025-03-11 15:56:55,122] Trial 37 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:56:56,544] Trial 38 pruned. 
+Starting simulated annealing
+[I 2025-03-11 15:56:57,530] Trial 43 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:57:00,207] Trial 45 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:57:01,879] Trial 48 pruned. 
+[I 2025-03-11 15:57:02,361] Trial 46 pruned. 
+Starting simulated annealing
+Starting simulated annealingStarting simulated annealing
+
+Starting simulated annealingStarting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+
+Starting simulated annealing
+[I 2025-03-11 15:57:06,267] Trial 53 pruned. 
+[I 2025-03-11 15:57:07,250] Trial 47 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:57:12,061] Trial 55 pruned. 
+Starting simulated annealing
+Starting simulated annealingStarting simulated annealing
+
+Starting simulated annealing
+[I 2025-03-11 15:57:13,871] Trial 54 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+[I 2025-03-11 15:57:15,894] Trial 52 pruned. 
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Starting simulated annealing
+Trial 3 completed
+Final loss: 57344.966086757806
+Final temperature: 0.0009999130170775545
+Number of iterations: 46522
+Valid modifications: 38172
+Effective modifications: 66
+Simulated annealing completed
+Starting simulated annealing[I 2025-03-11 15:57:24,780] Trial 66 pruned. 
+[I 2025-03-11 15:57:25,163] Trial 64 pruned. 
+
+Starting simulated annealing
+[I 2025-03-11 15:57:26,157] Trial 75 pruned. 
+Starting simulated annealing[I 2025-03-11 15:57:28,916] Trial 76 pruned. 
+
+[I 2025-03-11 15:57:29,739] Trial 58 pruned. 
+[I 2025-03-11 15:57:32,263] Trial 68 pruned. 
+Starting simulated annealing
+[I 2025-03-11 15:57:32,327] Trial 78 pruned. 
+Starting simulated annealing
+[I 2025-03-11 15:57:33,069] Trial 93 pruned. 
+Starting simulated annealing
+[I 2025-03-11 15:57:34,499] Trial 71 pruned. 
+[I 2025-03-11 15:57:34,609] Trial 80 pruned. 
+[I 2025-03-11 15:57:35,927] Trial 87 pruned. 
+Starting simulated annealing
+[I 2025-03-11 15:57:38,799] Trial 70 pruned. 
+[I 2025-03-11 15:57:39,120] Trial 3 finished with value: 443.0 and parameters: {'initial_temp': 367.3838793868118, 'cooling_rate': 0.9996643587198976, 'max_iter': 541100000, 'weight': 20.233523913548712, 'community': 67.59038411285886, 'diversity': 13.37186764065644, 'shortcut': 8841.064519949197, 'resolution': 3.804642996130351}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 15:57:39,264] Trial 84 pruned. 
+[I 2025-03-11 15:57:39,374] Trial 91 pruned. 
+[I 2025-03-11 15:57:40,855] Trial 28 pruned. 
+Trial 16 completed
+Final loss: 77322.50154822279
+Final temperature: 0.000999406820751645
+Number of iterations: 20072
+Valid modifications: 16554
+Effective modifications: 21
+Simulated annealing completed
+[I 2025-03-11 15:57:56,377] Trial 16 finished with value: 442.0 and parameters: {'initial_temp': 954.6240745532527, 'cooling_rate': 0.9991685428886712, 'max_iter': 623600000, 'weight': 89.16420273144193, 'community': 95.84251354872478, 'diversity': 12.89174793380219, 'shortcut': 6637.725124255674, 'resolution': 3.6065603193380347}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 15:58:00,455] Trial 32 pruned. 
+[I 2025-03-11 15:58:16,637] Trial 41 pruned. 
+[I 2025-03-11 15:58:21,515] Trial 49 pruned. 
+[I 2025-03-11 15:58:29,173] Trial 69 pruned. 
+[I 2025-03-11 15:58:31,191] Trial 81 pruned. 
+[I 2025-03-11 15:58:34,527] Trial 86 pruned. 
+[I 2025-03-11 15:58:35,027] Trial 24 pruned. 
+[I 2025-03-11 15:58:35,726] Trial 19 pruned. 
+[I 2025-03-11 15:58:39,265] Trial 26 pruned. 
+Trial 11 completed
+Final loss: 26572.93682004629
+Final temperature: 0.0009999093519850346
+Number of iterations: 53038
+Valid modifications: 44360
+Effective modifications: 69
+Simulated annealing completed
+[I 2025-03-11 15:58:42,980] Trial 92 pruned. 
+[I 2025-03-11 15:58:47,837] Trial 11 finished with value: 441.0 and parameters: {'initial_temp': 331.95063062352904, 'cooling_rate': 0.999713457828725, 'max_iter': 848200000, 'weight': 74.37460031820606, 'community': 29.143675042299797, 'diversity': 9.836033132495038, 'shortcut': 8243.070875673955, 'resolution': 4.5118097971209945}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 15:58:49,654] Trial 99 pruned. 
+[I 2025-03-11 15:58:49,886] Trial 82 pruned. 
+[I 2025-03-11 15:58:50,086] Trial 77 pruned. 
+[I 2025-03-11 15:58:50,875] Trial 97 pruned. 
+Trial 27 completed
+Final loss: 61831.30332751995
+Final temperature: 0.0009999056375689247
+Number of iterations: 22014
+Valid modifications: 18230
+Effective modifications: 34
+Simulated annealing completed
+[I 2025-03-11 15:59:06,122] Trial 27 finished with value: 442.0 and parameters: {'initial_temp': 813.4323233161538, 'cooling_rate': 0.9992537556838231, 'max_iter': 74400000, 'weight': 59.82888082191659, 'community': 80.30348163543697, 'diversity': 41.46574193461711, 'shortcut': 3536.4513243437755, 'resolution': 2.3876799275144744}. Best is trial 3 with value: 443.0.
+Trial 50 completed
+Final loss: 58355.92599212035
+Final temperature: 0.000999611015970186
+Number of iterations: 17782
+Valid modifications: 14662
+Effective modifications: 25
+Simulated annealing completed
+[I 2025-03-11 15:59:12,276] Trial 50 finished with value: 441.0 and parameters: {'initial_temp': 591.3049196323706, 'cooling_rate': 0.9990939534608562, 'max_iter': 166100000, 'weight': 33.12410326299131, 'community': 68.58785805131122, 'diversity': 9.026466277676802, 'shortcut': 6986.052386552441, 'resolution': 4.217168744695102}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 15:59:19,553] Trial 34 pruned. 
+[I 2025-03-11 15:59:24,312] Trial 83 pruned. 
+[I 2025-03-11 15:59:26,776] Trial 44 pruned. 
+Trial 62 completed
+Final loss: 68463.98825439041
+Final temperature: 0.0009997051351038262
+Number of iterations: 20930
+Valid modifications: 17358
+Effective modifications: 38
+Simulated annealing completed
+[I 2025-03-11 15:59:33,966] Trial 62 finished with value: 443.0 and parameters: {'initial_temp': 571.3123052541816, 'cooling_rate': 0.999236609874213, 'max_iter': 400300000, 'weight': 90.85102767844741, 'community': 70.77354008068666, 'diversity': 91.89935077419693, 'shortcut': 7567.479842505565, 'resolution': 3.592193620304078}. Best is trial 3 with value: 443.0.
+Trial 59 completed
+Final loss: 73673.04554346608
+Final temperature: 0.000999955592509317
+Number of iterations: 20702
+Valid modifications: 17282
+Effective modifications: 25
+Simulated annealing completed
+[I 2025-03-11 15:59:40,950] Trial 94 pruned. 
+Trial 65 completed
+Final loss: 237497.8764709624
+Final temperature: 0.0009997939071715687
+Number of iterations: 19435
+Valid modifications: 16692
+Effective modifications: 1115
+Simulated annealing completed
+Trial 95 completed
+Final loss: 79204.3399851565
+Final temperature: 0.0009997569139712584
+Number of iterations: 19279
+Valid modifications: 15767
+Effective modifications: 26
+Simulated annealing completed
+[I 2025-03-11 15:59:42,460] Trial 65 finished with value: 382.0 and parameters: {'initial_temp': 803.8643798639926, 'cooling_rate': 0.9991857263829462, 'max_iter': 473600000, 'weight': 14.68805419082632, 'community': 49.76498532090784, 'diversity': 38.219216252107344, 'shortcut': 434.4401083729267, 'resolution': 3.4901413634906233}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 15:59:42,902] Trial 90 pruned. 
+[I 2025-03-11 15:59:43,395] Trial 59 finished with value: 441.0 and parameters: {'initial_temp': 569.0921199327463, 'cooling_rate': 0.9992334936612135, 'max_iter': 804600000, 'weight': 85.23283327950108, 'community': 83.11184227395158, 'diversity': 85.58786980389554, 'shortcut': 3908.474142827051, 'resolution': 2.863244248600948}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 15:59:43,623] Trial 95 finished with value: 441.0 and parameters: {'initial_temp': 317.5226014547769, 'cooling_rate': 0.999196837745594, 'max_iter': 264000000, 'weight': 43.46522487044704, 'community': 92.68211477788924, 'diversity': 35.740863720291564, 'shortcut': 2969.0699084674297, 'resolution': 3.9504399184341845}. Best is trial 3 with value: 443.0.
+Trial 23 completed
+Final loss: 69761.5056980485
+Final temperature: 0.0009996939634812757
+Number of iterations: 33859
+Valid modifications: 27966
+Effective modifications: 37
+Simulated annealing completed
+Trial 21 completed
+Final loss: 72289.93382115895
+Final temperature: 0.000999687822916495
+Number of iterations: 35885
+Valid modifications: 29451
+Effective modifications: 52
+Simulated annealing completed
+[I 2025-03-11 15:59:47,488] Trial 21 finished with value: 443.0 and parameters: {'initial_temp': 868.45539334037, 'cooling_rate': 0.9995357845417825, 'max_iter': 827100000, 'weight': 80.46514827566489, 'community': 68.0962114120233, 'diversity': 30.71374472283936, 'shortcut': 2159.2882473575164, 'resolution': 4.275371575734696}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 15:59:47,644] Trial 23 finished with value: 441.0 and parameters: {'initial_temp': 735.7589913008928, 'cooling_rate': 0.9995170670905485, 'max_iter': 948400000, 'weight': 23.292910031016856, 'community': 86.48283672992913, 'diversity': 25.244313456701843, 'shortcut': 5481.0590163615925, 'resolution': 2.982321025909937}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 15:59:49,000] Trial 51 pruned. 
+[I 2025-03-11 15:59:52,821] Trial 89 pruned. 
+[I 2025-03-11 15:59:54,101] Trial 57 pruned. 
+Trial 85 completed
+Final loss: 70094.7771372748
+Final temperature: 0.0009996687441787954
+Number of iterations: 24619
+Valid modifications: 20267
+Effective modifications: 31
+Simulated annealing completed
+[I 2025-03-11 15:59:58,937] Trial 85 finished with value: 441.0 and parameters: {'initial_temp': 313.007680210123, 'cooling_rate': 0.9993758146451119, 'max_iter': 320500000, 'weight': 34.97401419264586, 'community': 90.65867632096744, 'diversity': 89.72077188221951, 'shortcut': 7754.024083845449, 'resolution': 1.8378734878514689}. Best is trial 3 with value: 443.0.
+Trial 74 completed
+Final loss: 175524.59286016168
+Final temperature: 0.000999478021095257
+Number of iterations: 27969
+Valid modifications: 23259
+Effective modifications: 180
+Simulated annealing completed
+[I 2025-03-11 16:00:02,342] Trial 74 finished with value: 424.0 and parameters: {'initial_temp': 824.0467487456434, 'cooling_rate': 0.999414484020379, 'max_iter': 662600000, 'weight': 25.25429594501154, 'community': 79.73474760763847, 'diversity': 49.18558990754942, 'shortcut': 992.1194450220287, 'resolution': 4.882674280997881}. Best is trial 3 with value: 443.0.
+Trial 72 completed
+Final loss: 60114.317680248256
+Final temperature: 0.000999679928033779
+Number of iterations: 25921
+Valid modifications: 21444
+Effective modifications: 34
+Simulated annealing completed
+Trial 60 completed
+Final loss: 67695.98395617228
+Final temperature: 0.000999985155360971
+Number of iterations: 25338
+Valid modifications: 21542
+Effective modifications: 34
+Simulated annealing completed
+[I 2025-03-11 16:00:06,683] Trial 72 finished with value: 441.0 and parameters: {'initial_temp': 765.8776473250696, 'cooling_rate': 0.9993683632566126, 'max_iter': 830800000, 'weight': 63.00752995894362, 'community': 58.31696844209938, 'diversity': 70.82594894782058, 'shortcut': 7541.259499374729, 'resolution': 4.889286983271563}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 16:00:07,460] Trial 60 finished with value: 442.0 and parameters: {'initial_temp': 705.4889627703091, 'cooling_rate': 0.9993750602132705, 'max_iter': 580700000, 'weight': 35.910938271571695, 'community': 90.12748849550628, 'diversity': 20.790605387446163, 'shortcut': 3352.411360797629, 'resolution': 2.2565139342484706}. Best is trial 3 with value: 443.0.
+Trial 61 completed
+Final loss: 161064.99737656218
+Final temperature: 0.0009996068771339019
+Number of iterations: 32328
+Valid modifications: 28257
+Effective modifications: 246
+Simulated annealing completed
+[I 2025-03-11 16:00:25,581] Trial 61 finished with value: 429.0 and parameters: {'initial_temp': 719.8437547607733, 'cooling_rate': 0.9995228097664858, 'max_iter': 923000000, 'weight': 47.478118005387834, 'community': 66.8691698673344, 'diversity': 92.29510211907215, 'shortcut': 854.6403330356259, 'resolution': 3.645636836439284}. Best is trial 3 with value: 443.0.
+Trial 73 completed
+Final loss: 112384.1483509882
+Final temperature: 0.0009997943656687269
+Number of iterations: 31555
+Valid modifications: 26901
+Effective modifications: 514
+Simulated annealing completed
+[I 2025-03-11 16:00:30,756] Trial 73 finished with value: 398.0 and parameters: {'initial_temp': 315.3758563771879, 'cooling_rate': 0.9995294321132187, 'max_iter': 844900000, 'weight': 77.89995362031277, 'community': 79.15598971988983, 'diversity': 92.19952668763193, 'shortcut': 252.65954247534464, 'resolution': 1.1835600362755738}. Best is trial 3 with value: 443.0.
+Trial 88 completed
+Final loss: 47046.80319222035
+Final temperature: 0.0009996510264089992
+Number of iterations: 37130
+Valid modifications: 30723
+Effective modifications: 54
+Simulated annealing completed
+[I 2025-03-11 16:00:33,710] Trial 88 finished with value: 441.0 and parameters: {'initial_temp': 227.24557458824387, 'cooling_rate': 0.9995986179716569, 'max_iter': 460000000, 'weight': 92.32128681092946, 'community': 49.246575130602636, 'diversity': 67.75396346496302, 'shortcut': 6986.073261826273, 'resolution': 3.2965000162735847}. Best is trial 3 with value: 443.0.
+Trial 22 completed
+Final loss: 69916.36155572919
+Final temperature: 0.0009997078815828049
+Number of iterations: 57085
+Valid modifications: 47105
+Effective modifications: 71
+Simulated annealing completed
+[I 2025-03-11 16:00:56,346] Trial 22 finished with value: 439.0 and parameters: {'initial_temp': 956.3731903101954, 'cooling_rate': 0.9997076916924346, 'max_iter': 782900000, 'weight': 24.47458041709725, 'community': 95.9933565197505, 'diversity': 55.16189703242033, 'shortcut': 5344.134580092873, 'resolution': 1.7658634138816356}. Best is trial 3 with value: 443.0.
+Trial 56 completed
+Final loss: 257217.35191566322
+Final temperature: 0.0009997713986730776
+Number of iterations: 52905
+Valid modifications: 45094
+Effective modifications: 550
+Simulated annealing completed
+[I 2025-03-11 16:01:04,925] Trial 56 finished with value: 409.0 and parameters: {'initial_temp': 985.7171964046726, 'cooling_rate': 0.999693989408503, 'max_iter': 905300000, 'weight': 84.62237274874893, 'community': 68.49216995121176, 'diversity': 9.19033053355194, 'shortcut': 1269.3725905993992, 'resolution': 1.107604109806346}. Best is trial 3 with value: 443.0.
+Trial 42 completed
+Final loss: 70074.71089640037
+Final temperature: 0.0009999906460051713
+Number of iterations: 70725
+Valid modifications: 58383
+Effective modifications: 131
+Simulated annealing completed
+[I 2025-03-11 16:01:37,589] Trial 42 finished with value: 438.0 and parameters: {'initial_temp': 955.8715243081199, 'cooling_rate': 0.999764164837135, 'max_iter': 942100000, 'weight': 72.99282409603315, 'community': 98.99074355844022, 'diversity': 71.43686706641967, 'shortcut': 2147.3689264371155, 'resolution': 0.6252732607402111}. Best is trial 3 with value: 443.0.
+Trial 6 completed
+Final loss: 234896.51821855706
+Final temperature: 0.000999865723462978
+Number of iterations: 108471
+Valid modifications: 95102
+Effective modifications: 1683
+Simulated annealing completed
+[I 2025-03-11 16:02:08,121] Trial 6 finished with value: 411.0 and parameters: {'initial_temp': 637.044278897696, 'cooling_rate': 0.999859479404245, 'max_iter': 581600000, 'weight': 97.43178249459068, 'community': 7.435660586420753, 'diversity': 74.05846878965318, 'shortcut': 962.5961908547188, 'resolution': 3.292709305377955}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 16:02:08,415] Trial 67 pruned. 
+[I 2025-03-11 16:02:10,029] Trial 96 pruned. 
+[I 2025-03-11 16:02:11,558] Trial 79 pruned. 
+[I 2025-03-11 16:02:12,154] Trial 63 pruned. 
+Trial 98 completed
+Final loss: 714587.4589530864
+Final temperature: 0.0009999842651801534
+Number of iterations: 129746
+Valid modifications: 112557
+Effective modifications: 40656
+Simulated annealing completedTrial 40 completed
+Final loss: 64578.30225084338
+Final temperature: 0.000999879898081071
+Number of iterations: 106587
+Valid modifications: 87952
+Effective modifications: 146
+Simulated annealing completed
+
+[I 2025-03-11 16:02:14,525] Trial 40 finished with value: 443.0 and parameters: {'initial_temp': 230.3744494433643, 'cooling_rate': 0.9998596198526885, 'max_iter': 114800000, 'weight': 21.46554369535886, 'community': 98.10158861579316, 'diversity': 57.420275917779485, 'shortcut': 5459.942964486854, 'resolution': 1.3469595875795273}. Best is trial 3 with value: 443.0.
+[I 2025-03-11 16:02:14,526] Trial 98 finished with value: 313.0 and parameters: {'initial_temp': 956.955900934959, 'cooling_rate': 0.9998776558910247, 'max_iter': 331200000, 'weight': 20.068714424023245, 'community': 12.099827767507144, 'diversity': 93.6168612451021, 'shortcut': 711.0448025926087, 'resolution': 0.10842181768774026}. Best is trial 3 with value: 443.0.
+/home/avitals5/yolo_lab/hierarchy/src/scripts/optuna_tree_search.py:420: ExperimentalWarning: plot_param_importances is experimental (supported from v2.2.0). The interface can change in the future.
+  optuna.visualization.matplotlib.plot_param_importances(study)
+/home/avitals5/yolo_lab/hierarchy/src/scripts/optuna_tree_search.py:423: ExperimentalWarning: plot_optimization_history is experimental (supported from v2.2.0). The interface can change in the future.
+  optuna.visualization.matplotlib.plot_optimization_history(study)
+/home/avitals5/yolo_lab/hierarchy/src/scripts/optuna_tree_search.py:426: ExperimentalWarning: plot_parallel_coordinate is experimental (supported from v2.2.0). The interface can change in the future.
+  optuna.visualization.matplotlib.plot_parallel_coordinate(study)
+Optimization finished. Results saved.

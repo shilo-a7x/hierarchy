@@ -15,6 +15,7 @@ def compute_statistics(G: nx.Graph, T: nx.Graph, S: nx.Graph):
     positive_edges = set(T.edges)
     total_edges = set(G.edges)
     negative_edges = total_edges - positive_edges
+    illegal_edges = set(S.edges()) - total_edges
 
     for edge in total_edges:
         u, v = edge
@@ -40,7 +41,19 @@ def compute_statistics(G: nx.Graph, T: nx.Graph, S: nx.Graph):
         else 0
     )
 
-    return TP, FP, FN, TN, accuracy, precision, NPV, recall, TNR, f1_score
+    return (
+        TP,
+        FP,
+        FN,
+        TN,
+        accuracy,
+        precision,
+        NPV,
+        recall,
+        TNR,
+        f1_score,
+        len(illegal_edges),
+    )
 
 
 def compare_graphs(graph_name, G_filepath, T_filepath, S_filepath, output_csv):
@@ -63,6 +76,7 @@ def compare_graphs(graph_name, G_filepath, T_filepath, S_filepath, output_csv):
         recall,
         TNR,
         f1_score,
+        shortcut_edges,
     ) = compute_statistics(G, T, S)
 
     num_nodes = G.number_of_nodes()
@@ -76,10 +90,7 @@ def compare_graphs(graph_name, G_filepath, T_filepath, S_filepath, output_csv):
         "FP": FP,
         "TN": TN,
         "FN": FN,
-        "TP_norm": round(TP / num_edges, 4),
-        "FP_norm": round(FP / num_edges, 4),
-        "TN_norm": round(TN / num_edges, 4),
-        "FN_norm": round(FN / num_edges, 4),
+        "Shortcut edges": shortcut_edges,
         "Accuracy": round(accuracy, 4),
         "Precision": round(precision, 4),
         "Negative predictive value": round(NPV, 4),

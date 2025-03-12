@@ -1,9 +1,11 @@
 nohup: ignoring input
-Fetching hierarchy tree for category: Mathematics
-Number of categories in the hierarchy tree: 9969
-Number of nodes in the hierarchy tree: 120818
-Saved node name mapping as JSON: data/wiki/Mathematics/node_mapping.json
-Saved hierarchy_tree as edgelist: data/wiki/Mathematics/hierarchy_tree.edgelist
-Saved hierarchy_tree as Pickle: data/wiki/Mathematics/hierarchy_tree.pkl
+Fetching hierarchy tree for category: Complex numbers
+Number of categories in the hierarchy tree: 486
+Number of nodes in the hierarchy tree: 6304
+Saved node name mapping as JSON: data/wiki/Complex numbers/node_mapping.json
+Saved hierarchy_tree as edgelist: data/wiki/Complex numbers/hierarchy_tree.edgelist
+Saved hierarchy_tree as Pickle: data/wiki/Complex numbers/hierarchy_tree.pkl
 Building entity graph from hierarchy tree...
-An unexpected error occurred: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+Number of edges in the entity graph: 257698
+Saved entity_graph as edgelist: data/wiki/Complex numbers/entity_graph.edgelist
+Saved entity_graph as Pickle: data/wiki/Complex numbers/entity_graph.pkl

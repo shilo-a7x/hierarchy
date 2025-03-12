@@ -2,16 +2,30 @@ import pickle
 import json
 import argparse
 import random
+import optuna
 import networkx as nx
 import leidenalg as la
 import igraph as ig
 import numpy as np
+import logging
+import traceback
+import matplotlib.pyplot as plt
 from networkx.algorithms.tree.branchings import Edmonds
 
 
+# Setup Logging
+logging.basicConfig(
+    filename="optuna_log.txt", level=logging.INFO, format="%(asctime)s - %(message)s"
+)
+
+# Global storage for graph, node scores, and edge weights
+GRAPHS = {}
+
+
 class Pool:
+    """Efficient sampling, insertion, and removal in O(1)."""
+
     def __init__(self, elements=None):
-        """Fast O(1) sampling, insertion, and removal."""
         self.item_list = []
         self.item_index = {}
         if elements:
@@ -19,11 +33,9 @@ class Pool:
                 self.add(item)
 
     def sample(self):
-        """Returns a random element in O(1)."""
         return random.choice(self.item_list) if self.item_list else None
 
     def remove(self, item):
-        """Removes an item in O(1) using swap-remove."""
         if item not in self.item_index:
             return
         idx = self.item_index[item]
@@ -34,24 +46,91 @@ class Pool:
         del self.item_index[item]
 
     def add(self, item):
-        """Adds an item in O(1)."""
         if item in self.item_index:
             return
         self.item_index[item] = len(self.item_list)
         self.item_list.append(item)
 
 
-def convert_to_igraph(graph: nx.Graph):
+def load_graph(file_path):
+    """Loads a graph from a pickle file."""
+    with open(file_path, "rb") as f:
+        return pickle.load(f)
+
+
+def save_graph(graph, file_path):
+    """Saves a graph to a pickle file."""
+    with open(file_path, "wb") as f:
+        pickle.dump(graph, f)
+
+
+def compute_node_scores(graph):
+    """Computes node betweenness centrality scores."""
+    return nx.betweenness_centrality(graph.to_undirected())
+
+
+def precompute_edge_weights(graph, node_scores):
+    """Assigns edge weights based on precomputed node scores."""
+    for u, v in graph.edges():
+        graph[u][v]["weight"] = (node_scores[u] - node_scores[v]) ** 2
+
+
+def initialize_global_data():
+    """Loads graphs and precomputes node scores & edge weights once."""
+    global GRAPHS
+    G = load_graph("data/wiki/Graph theory/entity_graph.pkl")
+    T = load_graph("data/wiki/Graph theory/hierarchy_tree.pkl")
+    node_scores = compute_node_scores(G)  # Expensive operation, done once!
+    precompute_edge_weights(G, node_scores)  # Store edge weights
+
+    GRAPHS["graph"] = G
+    GRAPHS["true_tree"] = T
+    GRAPHS["initial_tree"] = Edmonds(G).find_optimum(
+        attr="weight", kind="min", style="arborescence"
+    )
+
+
+def perform_leiden(graph: nx.Graph, resolution):
+    """Performs Leiden community detection with a tunable resolution parameter."""
     ig_graph = ig.Graph(directed=graph.is_directed())
     ig_graph.add_vertices(len(graph))
     ig_graph.add_edges(list(graph.edges()))
-    return ig_graph
-
-
-def perform_leiden(graph: nx.Graph):
-    ig_graph = convert_to_igraph(graph)
-    partition = la.find_partition(ig_graph, partition_type=la.ModularityVertexPartition)
+    partition = la.find_partition(
+        ig_graph, la.RBConfigurationVertexPartition, resolution_parameter=resolution
+    )
     return {node: comm for comm, nodes in enumerate(partition) for node in nodes}
+
+
+def compute_statistics(G, T, S):
+    """Computes F1-score and related metrics."""
+    TP = FP = FN = TN = 0
+    positive_edges = set(T.edges)
+    total_edges = set(G.edges())
+    negative_edges = total_edges - positive_edges
+    illegal_edges = set(S.edges()) - total_edges
+
+    for edge in total_edges:
+        u, v = edge
+        if edge in positive_edges:
+            if S.has_edge(u, v):
+                TP += 1
+            else:
+                FN += 1
+        elif edge in negative_edges:
+            if S.has_edge(u, v):
+                FP += 1
+            else:
+                TN += 1
+
+    precision = TP / (TP + FP) if (TP + FP) > 0 else 0
+    recall = TP / (TP + FN) if (TP + FN) > 0 else 0
+    f1_score = (
+        (2 * precision * recall) / (precision + recall)
+        if (precision + recall) > 0
+        else 0
+    )
+
+    return TP, FP, FN, TN, f1_score, len(illegal_edges)
 
 
 class LossManager:
@@ -178,10 +257,12 @@ def has_path_backwards(start, target, parent_map):
     return False
 
 
-def simulated_annealing(graph, true_tree, communities, config):
+def simulated_annealing(
+    graph, true_tree, initial_tree, communities, config, trial=None
+):
     """Runs simulated annealing to find an optimal spanning tree."""
     print("Starting simulated annealing")
-    tree = Edmonds(graph).find_optimum(attr="weight", kind="min", style="arborescence")
+    tree = initial_tree.copy()
     loss_manager = LossManager(tree, true_tree, communities, graph, config)
 
     temperature = config["initial_temp"]
@@ -234,84 +315,115 @@ def simulated_annealing(graph, true_tree, communities, config):
             )
             effective_modifications += 1
 
+        if trial and i % 10000 == 0:
+            current_loss = loss_manager.total_loss()
+            trial.report(current_loss, step=i)
+
+            # If Optuna suggests pruning, exit early
+            if trial.should_prune():
+                raise optuna.exceptions.TrialPruned()
+
         temperature *= cooling_rate
-        if i % 1000 == 0:
-            print(
-                f"Iteration: {i}, "
-                f"Valid modifications: {valid_modifications}, "
-                f"Effective modifications: {effective_modifications}, "
-                f"Loss: {loss_manager.total_loss()}"
-            )
         if temperature < 1e-3:
             break
-    print(f"Final loss: {loss_manager.total_loss()}")
-    print(f"Final temperature: {temperature}")
-    print(f"Number of iterations: {i}")
-    print(f"Valid modifications: {valid_modifications}")
-    print(f"Effective modifications: {effective_modifications}")
-    print("Simulated annealing completed")
+    print(
+        "\n".join(
+            [
+                f"Trial {trial.number} completed",
+                f"Final loss: {loss_manager.total_loss()}",
+                f"Final temperature: {temperature}",
+                f"Number of iterations: {i}",
+                f"Valid modifications: {valid_modifications}",
+                f"Effective modifications: {effective_modifications}",
+                "Simulated annealing completed",
+            ]
+        )
+    )
     return tree
 
 
-def alg(graph, true_tree, config):
-    communities = perform_leiden(graph)
-    nodes_score = nx.betweenness_centrality(graph.to_undirected())
-    for u, v in graph.edges():
-        graph[u][v]["weight"] = (nodes_score[u] - nodes_score[v]) ** 2
-    return simulated_annealing(graph, true_tree, communities, config)
+def alg(graph, true_tree, config, trial):
+    communities = perform_leiden(graph, config["resolution"])
+    return simulated_annealing(graph, true_tree, communities, config, trial)
 
 
-def load_graph(file_path):
-    with open(file_path, "rb") as f:
-        return pickle.load(f)
+def objective(trial):
+    """Objective function for Optuna optimization."""
+    config = {
+        "initial_temp": trial.suggest_float("initial_temp", 100, 1000),
+        "cooling_rate": trial.suggest_float("cooling_rate", 0.999, 0.99999),
+        "max_iter": trial.suggest_int("max_iter", int(1e5), int(1e9), step=int(1e5)),
+        "loss_weights": {
+            "weight": trial.suggest_float("weight", 1, 100),
+            "community": trial.suggest_float("community", 1, 100),
+            "diversity": trial.suggest_float("diversity", 1, 100),
+            "shortcut": trial.suggest_float("shortcut", 1, 1e4),
+        },
+        "resolution": trial.suggest_float("resolution", 0.1, 5),
+    }
 
+    try:
+        G = GRAPHS["graph"]
+        T = GRAPHS["true_tree"]
+        S_0 = GRAPHS["initial_tree"]
 
-def save_graph(graph, file_path):
-    with open(file_path, "wb") as f:
-        pickle.dump(graph, f)
+        communities = perform_leiden(G, config["resolution"])
 
+        S = simulated_annealing(
+            G, T, S_0, communities, config, trial
+        )  # Run simulated annealing with given parameters
 
-def load_config(config_path):
-    with open(config_path, "r") as f:
-        return json.load(f)
+        TP, FP, FN, TN, f1_score, shortcuts = compute_statistics(G, T, S)
+        logging.info(
+            f"Trial {trial.number}: F1-score = {f1_score}, Shortcuts = {shortcuts}, TP = {TP}, Parameters = {config}"
+        )
 
+        return TP
 
-def process_graph(G_path, T_path, S_path, config):
-    graph = load_graph(G_path)
-    true_tree = load_graph(T_path)
-    result = alg(graph, true_tree, config)
-    save_graph(result, S_path)
+    except optuna.exceptions.TrialPruned:
+        logging.info(f"Trial {trial.number} pruned due to early stopping.")
+        raise
 
-
-def main():
-    parser = argparse.ArgumentParser(description="Find optimal directed spanning tree")
-    parser.add_argument("G_path", type=str, help="Path to the input graph pkl file")
-    parser.add_argument(
-        "T_path", type=str, help="Path to the input ground truth tree pkl file"
-    )
-    parser.add_argument(
-        "S_path", type=str, help="Path to save the output tree pkl file"
-    )
-    parser.add_argument(
-        "--config", type=str, default=None, help="Path to the config file"
-    )
-    args = parser.parse_args()
-    if args.config:
-        config = load_config(args.config)
-    else:
-        config = {
-            "max_iter": int(1e6),
-            "initial_temp": 1000,
-            "cooling_rate": 0.99999,
-            "loss_weights": {
-                "weight": 1,
-                "community": 1,
-                "diversity": 1,
-                "shortcut": 10,
-            },
-        }
-    process_graph(args.G_path, args.T_path, args.S_path, config)
+    except Exception as e:
+        logging.error(f"Trial {trial.number} failed with error: {e}")
+        traceback.print_exc()
+        return 0  # Return worst score so Optuna discards it
 
 
 if __name__ == "__main__":
-    main()
+    initialize_global_data()
+    study = optuna.create_study(direction="maximize")
+    study.optimize(objective, n_trials=100, n_jobs=-1)  # Use all CPUs
+
+    best_params = study.best_params
+    best_TP = study.best_value
+
+    best_config = {
+        "initial_temp": best_params["initial_temp"],
+        "cooling_rate": best_params["cooling_rate"],
+        "max_iter": best_params["max_iter"],
+        "loss_weights": {
+            "weight": best_params["weight"],
+            "community": best_params["community"],
+            "diversity": best_params["diversity"],
+            "shortcut": best_params["shortcut"],
+        },
+        "resolution": best_params["resolution"],
+    }
+
+    with open("best_hyperparameters.json", "w") as f:
+        json.dump(best_config, f, indent=4)
+
+    logging.info(f"Best parameters: {best_params}, Best TP: {best_TP}")
+
+    # Generate & save plots
+    optuna.visualization.matplotlib.plot_param_importances(study)
+    plt.savefig("param_importance.png")
+
+    optuna.visualization.matplotlib.plot_optimization_history(study)
+    plt.savefig("optimization_history.png")
+
+    optuna.visualization.matplotlib.plot_parallel_coordinate(study)
+    plt.savefig("parallel_coordinates.png")
+
+    print("Optimization finished. Results saved.")
