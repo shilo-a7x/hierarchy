@@ -194,121 +194,6 @@ def compute_statistics(G, T, S):
     return TP, FP, FN, TN, f1_score, len(illegal_edges)
 
 
-# class LossManager:
-#     """Manages loss components efficiently with O(1) delta updates."""
-
-#     def __init__(self, tree, true_tree, communities, graph, config):
-#         self.weights = config["loss_weights"]
-#         self.graph = graph  # Store original graph for shortcut checks
-#         self.communities = communities
-
-#         # Compute initial loss values
-#         self.losses = {
-#             "weight": self.weights["weight"]
-#             * sum(tree[u][v]["weight"] for u, v in tree.edges()),
-#             "community": self.weights["community"]
-#             * sum(
-#                 1 for u, v in tree.edges() if self.communities[u] != self.communities[v]
-#             ),
-#             "diversity": self.weights["diversity"] * self.compute_diversity_loss(tree),
-#             "shortcut": 0,
-#         }
-
-#     def compute_diversity_loss(self, tree):
-#         """Computes the diversity loss for the initial tree."""
-#         loss = 0
-#         for parent in tree.nodes():
-#             child_communities = [
-#                 self.communities[child] for child in tree.successors(parent)
-#             ]
-#             if child_communities:
-#                 counts = np.bincount(child_communities)
-#                 loss += 1 - (np.max(counts) / np.sum(counts))
-#         return loss
-
-#     def total_loss(self):
-#         """Returns the weighted loss sum."""
-#         return sum(self.losses.values())
-
-#     def compute_delta_loss(self, tree, old_edges, new_edges):
-#         """Computes the change in loss when swapping edges."""
-#         (x, y), (u, v) = old_edges
-#         (x, v), (u, y) = new_edges
-
-#         # Weight Loss Change
-#         weight_xv = (
-#             self.graph.edges[x, v]["weight"] if (x, v) in self.graph.edges() else 0
-#         )
-#         weight_xy = (
-#             self.graph.edges[x, y]["weight"] if (x, y) in self.graph.edges() else 0
-#         )
-#         weight_uy = (
-#             self.graph.edges[u, y]["weight"] if (u, y) in self.graph.edges() else 0
-#         )
-#         weight_uv = (
-#             self.graph.edges[u, v]["weight"] if (u, v) in self.graph.edges() else 0
-#         )
-
-#         delta_weight = self.weights["weight"] * (
-#             (weight_xv - weight_xy) + (weight_uy - weight_uv)
-#         )
-
-#         # Community Loss Change
-#         old_community_penalty = (self.communities[x] != self.communities[y]) + (
-#             self.communities[u] != self.communities[v]
-#         )
-#         new_community_penalty = (self.communities[x] != self.communities[v]) + (
-#             self.communities[u] != self.communities[y]
-#         )
-#         delta_community = self.weights["community"] * (
-#             new_community_penalty - old_community_penalty
-#         )
-
-#         # Diversity Loss Change
-#         def compute_diversity(parent, exclude_child=None, add_child=None):
-#             """Computes diversity for a single parent node, simulating the swap."""
-#             child_communities = [
-#                 self.communities[child]
-#                 for child in tree.successors(parent)
-#                 if child != exclude_child
-#             ]
-#             if add_child is not None:
-#                 child_communities.append(self.communities[add_child])
-#             if not child_communities:
-#                 return 0
-#             counts = np.bincount(child_communities)
-#             return 1 - (np.max(counts) / np.sum(counts))
-
-#         prev_div_x, prev_div_u = compute_diversity(x), compute_diversity(u)
-#         new_div_x = compute_diversity(x, exclude_child=y, add_child=v)  # Simulate swap
-#         new_div_u = compute_diversity(u, exclude_child=v, add_child=y)  # Simulate swap
-
-#         delta_diversity = self.weights["diversity"] * (
-#             (new_div_x + new_div_u) - (prev_div_x + prev_div_u)
-#         )
-
-#         prev_shortcut_penalty = ((x, y) not in self.graph.edges()) + (
-#             (u, v) not in self.graph.edges()
-#         )
-#         new_shortcut_penalty = ((x, v) not in self.graph.edges()) + (
-#             (u, y) not in self.graph.edges()
-#         )
-#         delta_shortcut = self.weights["shortcut"] * (
-#             new_shortcut_penalty - prev_shortcut_penalty
-#         )
-
-#         return delta_weight, delta_community, delta_diversity, delta_shortcut
-
-#     def apply_update(
-#         self, delta_weight, delta_community, delta_diversity, delta_shortcut
-#     ):
-#         """Applies the computed loss changes only if swap is accepted."""
-#         self.losses["weight"] += delta_weight
-#         self.losses["community"] += delta_community
-#         self.losses["diversity"] += delta_diversity
-#         self.losses["shortcut"] += delta_shortcut
-
-
 class TreeStateManager:
     """Manages loss components and state of tree"""
 
@@ -534,104 +419,10 @@ class TreeStateManager:
         self.losses["depth"] += delta_losses["depth"]
         self.losses["shortcut"] += delta_losses["shortcut"]
 
-    def restore_depth_vectors(self):
-        """Restores depth vectors from the backup on swap rejection."""
+    def restore_tree_state(self):
+        """Restores tree state on swap rejection."""
         for node, backup_vector in self.backup.items():
             self.depth_vectors[node] = backup_vector
-
-
-# def has_path_backwards(start, target, parent_map):
-#     """Returns True if there's a path from `start` to `target` by walking upwards."""
-#     while start in parent_map:
-#         start = parent_map[start]
-#         if start == target:
-#             return True
-#     return False
-
-
-# def simulated_annealing(
-#     graph, true_tree, initial_tree, communities, config, trial=None
-# ):
-#     """Runs simulated annealing to find an optimal spanning tree."""
-#     print("Starting simulated annealing")
-#     tree = initial_tree.copy()
-#     loss_manager = LossManager(tree, true_tree, communities, graph, config)
-
-#     temperature = config["initial_temp"]
-#     cooling_rate = config["cooling_rate"]
-#     tree_edges = Pool(tree.edges())
-#     parent_map = {child: parent for parent, child in tree.edges()}
-
-#     effective_modifications = 0
-#     valid_modifications = 0
-
-#     for i in range(config["max_iter"]):
-#         old_edge_1 = tree_edges.sample()
-#         old_edge_2 = tree_edges.sample()
-#         x, y = old_edge_1
-#         u, v = old_edge_2
-
-#         if x == u or x == v or y == u or y == v:
-#             continue
-
-#         if has_path_backwards(v, x, parent_map) or has_path_backwards(y, u, parent_map):
-#             continue
-#         valid_modifications += 1
-#         new_edge_1, new_edge_2 = (x, v), (u, y)
-
-#         delta_weight, delta_community, delta_diversity, delta_shortcut = (
-#             loss_manager.compute_delta_loss(
-#                 tree, [old_edge_1, old_edge_2], [new_edge_1, new_edge_2]
-#             )
-#         )
-#         new_loss = (
-#             loss_manager.total_loss()
-#             + delta_weight
-#             + delta_community
-#             + delta_diversity
-#             + delta_shortcut
-#         )
-#         delta_loss = new_loss - loss_manager.total_loss()
-
-#         if delta_loss < 0 or np.exp(-delta_loss / temperature) > random.random():
-#             tree.remove_edges_from([old_edge_1, old_edge_2])
-#             tree.add_edges_from([new_edge_1, new_edge_2])
-#             parent_map[v] = x
-#             parent_map[y] = u
-#             tree_edges.remove(old_edge_1)
-#             tree_edges.remove(old_edge_2)
-#             tree_edges.add(new_edge_1)
-#             tree_edges.add(new_edge_2)
-#             loss_manager.apply_update(
-#                 delta_weight, delta_community, delta_diversity, delta_shortcut
-#             )
-#             effective_modifications += 1
-
-#         if trial and i % 10000 == 0:
-#             current_loss = loss_manager.total_loss()
-#             trial.report(current_loss, step=i)
-
-#             # If Optuna suggests pruning, exit early
-#             if trial.should_prune():
-#                 raise optuna.exceptions.TrialPruned()
-
-#         temperature *= cooling_rate
-#         if temperature < 1e-3:
-#             break
-#     print(
-#         "\n".join(
-#             [
-#                 f"Trial {trial.number} completed",
-#                 f"Final loss: {loss_manager.total_loss()}",
-#                 f"Final temperature: {temperature}",
-#                 f"Number of iterations: {i}",
-#                 f"Valid modifications: {valid_modifications}",
-#                 f"Effective modifications: {effective_modifications}",
-#                 "Simulated annealing completed",
-#             ]
-#         )
-#     )
-#     return tree
 
 
 def simulated_annealing(
@@ -673,7 +464,7 @@ def simulated_annealing(
         if delta_loss < 0 or np.exp(-delta_loss / temperature) > random.random():
             tree_state_manager.apply_update(delta_losses, edge_modification)
         else:
-            tree_state_manager.restore_depth_vectors()
+            tree_state_manager.restore_tree_state()
 
         if trial and i % 10000 == 0:
             current_loss = tree_state_manager.total_loss()

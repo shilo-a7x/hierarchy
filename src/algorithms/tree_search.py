@@ -8,6 +8,7 @@ import leidenalg as la
 import igraph as ig
 import numpy as np
 from networkx.algorithms.tree.branchings import Edmonds
+import matplotlib.pyplot as plt
 
 
 class Pool:
@@ -48,9 +49,11 @@ def convert_to_igraph(graph: nx.Graph):
     return ig_graph
 
 
-def perform_leiden(graph: nx.Graph):
+def perform_leiden(graph: nx.Graph, resolution):
     ig_graph = convert_to_igraph(graph)
-    partition = la.find_partition(ig_graph, partition_type=la.ModularityVertexPartition)
+    partition = la.find_partition(
+        ig_graph, la.RBConfigurationVertexPartition, resolution_parameter=resolution
+    )
     return {node: comm for comm, nodes in enumerate(partition) for node in nodes}
 
 
@@ -331,8 +334,8 @@ class TreeStateManager:
         self.losses["depth"] += delta_losses["depth"]
         self.losses["shortcut"] += delta_losses["shortcut"]
 
-    def restore_depth_vectors(self):
-        """Restores depth vectors from the backup on swap rejection."""
+    def restore_tree_state(self):
+        """Restores tree state on swap rejection."""
         for node, backup_vector in self.backup.items():
             self.depth_vectors[node] = backup_vector
 
@@ -364,47 +367,39 @@ def simulated_annealing(
         config,
     )
 
-    effective_modifications = 0
-    valid_modifications = 0
+    loss_history = {key: [] for key in tree_state_manager.losses}
 
     for i in range(config["max_iter"]):
         valid, edge_modification = tree_state_manager.modify_tree()
         if not valid:
             continue
-        valid_modifications += 1
 
         delta_losses = tree_state_manager.compute_delta_loss(edge_modification)
         delta_loss = sum(delta_losses.values())
 
         if delta_loss < 0 or np.exp(-delta_loss / temperature) > random.random():
             tree_state_manager.apply_update(delta_losses, edge_modification)
-            effective_modifications += 1
         else:
-            tree_state_manager.restore_depth_vectors()
+            tree_state_manager.restore_tree_state()
 
         temperature *= cooling_rate
         if i % 1000 == 0:
-            print(
-                f"Iteration: {i}, "
-                f"Valid modifications: {valid_modifications}, "
-                f"Effective modifications: {effective_modifications}, "
-                f"Loss: {tree_state_manager.total_loss()}"
-            )
+            print(f"Iteration: {i}, Loss: {tree_state_manager.total_loss()}")
+            for key in loss_history:
+                loss_history[key].append(tree_state_manager.losses[key])
         if temperature < 1e-3:
             break
     print(f"Final loss: {tree_state_manager.total_loss()}")
     print(f"Final temperature: {temperature}")
     print(f"Number of iterations: {i}")
-    print(f"Valid modifications: {valid_modifications}")
-    print(f"Effective modifications: {effective_modifications}")
     print("Simulated annealing completed")
-    return tree_state_manager.tree
+    return tree_state_manager.tree, loss_history
 
 
-def preprocess(graph: nx.DiGraph, true_tree: nx.DiGraph):
+def preprocess(graph: nx.DiGraph, true_tree: nx.DiGraph, config):
     print("Starting preprocess...")
 
-    communities = perform_leiden(graph)
+    communities = perform_leiden(graph, config["resolution"])
     nodes_score = nx.betweenness_centrality(graph.to_undirected())
     for u, v in graph.edges():
         graph[u][v]["weight"] = (nodes_score[u] - nodes_score[v]) ** 2
@@ -444,6 +439,25 @@ def load_config(config_path):
         return json.load(f)
 
 
+def plot_loss_history(loss_history):
+    """Generates a plot for loss components over iterations."""
+    plt.figure(figsize=(10, 6))
+
+    for key, values in loss_history.items():
+        plt.plot(
+            range(0, len(values) * 1000, 1000), values, label=key
+        )  # X-axis is iteration count
+
+    plt.xlabel("Iterations")
+    plt.ylabel("Loss Value")
+    plt.title("Loss Components Over Simulated Annealing")
+    plt.legend()
+    plt.grid(True)
+    plt.savefig("loss_plot.png")
+    plt.show()
+    print("Loss plot saved as loss_plot.png")
+
+
 def process_graph(G_path, T_path, S_path, config):
     G = load_graph(G_path)
     T = load_graph(T_path)
@@ -454,8 +468,8 @@ def process_graph(G_path, T_path, S_path, config):
         depth_vectors,
         true_root_depth_vector,
         parent_map,
-    ) = preprocess(G, T)
-    S = simulated_annealing(
+    ) = preprocess(G, T, config)
+    S, losses = simulated_annealing(
         G,
         S_0,
         S_0_edges_sampler,
@@ -466,6 +480,7 @@ def process_graph(G_path, T_path, S_path, config):
         config,
     )
     save_graph(S, S_path)
+    plot_loss_history(losses)
 
 
 def main():
@@ -495,6 +510,7 @@ def main():
                 "depth": 2,
                 "shortcut": 10,
             },
+            "resolution": 1,
         }
     process_graph(args.G_path, args.T_path, args.S_path, config)
 
